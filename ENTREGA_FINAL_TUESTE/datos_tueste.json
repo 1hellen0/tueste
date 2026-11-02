@@ -1,0 +1,290 @@
+{
+  "_metadatos": {
+    "caso": "Caso A — Tueste",
+    "autor_caso": "FC Studio - Isidro Fernández C.",
+    "archivo_fuente": "Caso A - Tueste.pdf",
+    "total_paginas": 13,
+    "estado_auditoria": "100% VERIFICADO CONTRA EL PDF ORIGINAL",
+    "fecha_auditoria": "2026-10-30",
+    "moneda": "USD",
+    "periodicidad_cifras": "Mensual"
+  },
+  "contexto_negocio": {
+    "empresa": "Tueste",
+    "modelo": "E-commerce Directo al Cliente (DTC) de café de especialidad",
+    "fundador": "Diego Ramírez (ex-barista)",
+    "equipo": {
+      "diego": "Compra grano, tuesta y marketing",
+      "camila": "Operaciones, empaque y atención al cliente",
+      "tostador": "Medio tiempo"
+    },
+    "proveedores": "6 productores de Colombia, Perú y Guatemala",
+    "reputacion": "4,8 estrellas en 1.100 reseñas ('el mejor café que he probado')",
+    "agencia_marketing": "Impulso Digital (Martín Sosa), contratada hace 8 meses",
+    "inversionistas": "Sin inversionistas externos",
+    "objetivo_diego": "Comprar segunda tostadora de $14.000 USD",
+    "pregunta_central": "¿Firmo o no con la agencia para Black Friday? Y si no, ¿qué hago?"
+  },
+  "producto_y_precios": {
+    "bolsa_base_gramos": 340,
+    "precio_bolsa_individual": 17.00,
+    "pedido_tipico_cliente_nuevo": {
+      "bolsas": 2,
+      "precio_total": 34.00
+    },
+    "suscripcion_mensual": {
+      "bolsas_por_mes": 2,
+      "descuento_pct": 10.0,
+      "precio_mensual": 30.60,
+      "politica_cancelacion": "Cancelable cuando el cliente quiera"
+    },
+    "politica_envio_actual": "Gratis en todos los pedidos (lo absorbe Tueste)",
+    "idea_pack_diego": {
+      "bolsas": 3,
+      "precio_pack": 48.00,
+      "umbral_envio_gratis": 45.00,
+      "costo_empaque_caja_pack": 1.40,
+      "costo_cafe_pack": 16.32,
+      "regla_pedidos_2_bolsas": "Pagan su propio envío de $4,50"
+    }
+  },
+  "costos_variables_unitarios": {
+    "pedido_base_2_bolsas": {
+      "precio_cobrado": 34.00,
+      "costo_cafe": 10.88,
+      "costo_cafe_por_bolsa": 5.44,
+      "costo_cafe_pct_precio_lista": 32.0,
+      "costo_cafe_regla_descuento": "Fijo en $10.88, no cambia si hay descuento",
+      "costo_envio": 4.50,
+      "comision_pasarela_pct": 4.5,
+      "comision_pasarela_monto": 1.53,
+      "costo_caja_empaque": 1.20,
+      "total_costos_variables": 18.11,
+      "cm1_monto": 23.12,
+      "cm1_pct": 68.0,
+      "cm2_monto": 15.89,
+      "cm2_pct": 46.7353
+    },
+    "suscripcion_2_bolsas": {
+      "precio_cobrado": 30.60,
+      "costo_cafe": 10.88,
+      "costo_envio": 4.50,
+      "comision_pasarela_pct": 4.5,
+      "comision_pasarela_monto": 1.377,
+      "costo_caja_empaque": 1.20,
+      "total_costos_variables": 17.957,
+      "cm1_monto": 19.72,
+      "cm1_pct": 64.4444,
+      "cm2_monto": 12.643,
+      "cm2_pct": 41.317
+    },
+    "primer_pedido_con_descuento_30pct": {
+      "descuento_pct": 30.0,
+      "precio_cobrado": 23.80,
+      "costo_cafe": 10.88,
+      "costo_envio": 4.50,
+      "comision_pasarela_pct": 4.5,
+      "comision_pasarela_monto": 1.071,
+      "costo_caja_empaque": 1.20,
+      "total_costos_variables": 17.651,
+      "cm1_monto": 12.92,
+      "cm1_pct": 54.2857,
+      "cm2_monto": 6.149,
+      "cm2_pct": 25.8361
+    }
+  },
+  "datos_septiembre_referencia": {
+    "ads_manager_meta": {
+      "atribucion": "7 días clic o 1 día visualización",
+      "campanas": [
+        {
+          "nombre": "TUE_Prospección_Advantage+",
+          "gasto": 5600.00,
+          "compras": 391,
+          "valor_compras": 13300.00,
+          "roas": 2.38,
+          "cpm": 9.80,
+          "ctr_enlace_pct": 1.6
+        },
+        {
+          "nombre": "TUE_RTG_Visitantes_30d",
+          "gasto": 1400.00,
+          "compras": 162,
+          "valor_compras": 5500.00,
+          "roas": 3.93,
+          "cpm": 21.40,
+          "ctr_enlace_pct": 2.1
+        },
+        {
+          "nombre": "TUE_RTG_Compradores_180d",
+          "gasto": 1000.00,
+          "compras": 153,
+          "valor_compras": 5200.00,
+          "roas": 5.20,
+          "cpm": 18.90,
+          "ctr_enlace_pct": 2.8
+        }
+      ],
+      "totales": {
+        "gasto_anuncios": 8000.00,
+        "compras_atribuidas": 706,
+        "valor_atribuido": 24000.00,
+        "roas_reportado": 3.00
+      }
+    },
+    "datos_reales_shopify_y_encuesta": {
+      "ventas_totales_tienda": 28000.00,
+      "pedidos_totales": 840,
+      "clientes_nuevos_totales": 212,
+      "clientes_nuevos_meta": 165,
+      "otros_clientes_nuevos_organicos": 47,
+      "desglose_otros_clientes": {
+        "instagram_sin_pauta": 22,
+        "boca_a_boca": 15,
+        "google_sin_pauta": 10
+      },
+      "fee_mensual_agencia": 1000.00,
+      "variacion_saldo_banco_septiembre": -3200.00
+    }
+  },
+  "comportamiento_clientes_y_retencion": {
+    "mix_clientes_nuevos": {
+      "pedidos_sueltos_pct": 85.0,
+      "suscriptores_pct": 15.0
+    },
+    "suscriptores": {
+      "churn_mensual_pct": 9.0,
+      "retencion_mensual_pct": 91.0,
+      "cuota_mensual": 30.60
+    },
+    "clientes_sueltos": {
+      "pedidos_totales_12_meses": 3.00,
+      "ticket_por_pedido": 34.00,
+      "curva_pedidos_mes_a_mes": {
+        "mes_1": 1.00,
+        "mes_2": 0.15,
+        "mes_3": 0.20,
+        "mes_4": 0.20,
+        "mes_5": 0.20,
+        "mes_6": 0.20,
+        "mes_7": 0.20,
+        "mes_8": 0.15,
+        "mes_9": 0.15,
+        "mes_10": 0.15,
+        "mes_11": 0.20,
+        "mes_12": 0.20
+      },
+      "pedidos_meses_13_al_24": 0.10
+    }
+  },
+  "tabla_historica_inversion_meta": [
+    {
+      "mes": "Base teórica",
+      "inversion_meta": 0.0,
+      "clientes_nuevos_meta": 0,
+      "cac_anuncios": null,
+      "cac_marginal": null
+    },
+    {
+      "mes": "Marzo",
+      "inversion_meta": 4000.0,
+      "clientes_nuevos_meta": 100,
+      "cac_anuncios": 40.0,
+      "cac_marginal": 40.0
+    },
+    {
+      "mes": "Julio a septiembre (promedio)",
+      "inversion_meta": 8000.0,
+      "clientes_nuevos_meta": 165,
+      "cac_anuncios": 48.4848,
+      "cac_marginal": 61.5385
+    },
+    {
+      "mes": "Octubre (la agencia probó subir)",
+      "inversion_meta": 12000.0,
+      "clientes_nuevos_meta": 210,
+      "cac_anuncios": 57.1429,
+      "cac_marginal": 88.8889
+    },
+    {
+      "mes": "Abril (prueba de escala)",
+      "inversion_meta": 16000.0,
+      "clientes_nuevos_meta": 235,
+      "cac_anuncios": 68.0851,
+      "cac_marginal": 160.0
+    },
+    {
+      "mes": "Junio (prueba de 2 semanas, llevada a mes)",
+      "inversion_meta": 20000.0,
+      "clientes_nuevos_meta": 250,
+      "cac_anuncios": 80.0,
+      "cac_marginal": 266.6667
+    }
+  ],
+  "datos_caja_y_estructura_fija": {
+    "plata_en_banco_hoy": 35000.00,
+    "piso_seguridad_banco": 5000.00,
+    "costos_fijos_mensuales": {
+      "total": 6500.00,
+      "desglose": {
+        "planilla": 4600.00,
+        "alquiler_espacio_tueste": 1100.00,
+        "shopify_apps_correo": 250.00,
+        "contador_y_otros": 550.00
+      }
+    },
+    "fee_agencia_mensual": {
+      "monto": 1000.00,
+      "condicion": "Se paga cada mes que haya inversión en Meta; si la inversión es $0, no se paga"
+    },
+    "base_clientes_actuales": {
+      "contribucion_mes_siguiente_sin_anuncios": 9000.00,
+      "tasa_caida_mensual_pct": 3.0,
+      "factor_caida_mensual": 0.97
+    },
+    "clientes_organicos_fijos_mensuales": 47,
+    "precio_segunda_tostadora": 14000.00
+  },
+  "propuesta_agencia_black_friday": {
+    "inversion_meta_propuesta": 16000.00,
+    "descuento_primer_pedido_pct": 30.0,
+    "clientes_esperados_segun_historial": 235,
+    "argumento_agencia": "ROAS 3.0 supera promedio categoría (2.2). El algoritmo se optimiza con más presupuesto."
+  },
+  "supuestos_permitidos_oficiales": [
+    "1. Para el ROAS del primer pedido pueden usar $34 para todos los clientes nuevos, aunque el suscriptor pague $30,60.",
+    "2. La mezcla 85/15 y la forma de comprar de los clientes no cambian con la inversión.",
+    "3. El descuento de Black Friday aplica solo al primer pedido de los clientes de pedidos sueltos, y no cambia cuántos clientes llegan (para eso usen el historial). Es un supuesto optimista, anotarlo como riesgo.",
+    "4. Entre dos puntos del historial pueden usar interpolación lineal, una recta entre los dos puntos. Con $0 de inversión llegan 0 clientes.",
+    "5. No hay temporadas: todos los meses se comportan igual.",
+    "6. Si necesitan un dato que no está aquí, pueden suponerlo, siempre que quede escrito como supuesto y justificado."
+  ],
+  "reglas_nivel_3_simulador": {
+    "horizonte_meses": 24,
+    "caja_inicial": 35000.00,
+    "piso_caja_infranqueable": 5000.00,
+    "rango_inversion_mensual": [0.0, 20000.0],
+    "regla_mes_13_al_24": "La inversión de cada mes desde el mes 13 no puede ser menor que el promedio de lo invertido en los meses 1 a 12.",
+    "clientes_organicos_mensuales": 47,
+    "contribucion_base_existente": "9000 * (0.97)^(t-1) para el mes t",
+    "pedidos_sueltos_meses_13_a_24": 0.10,
+    "criterio_victoria": "Plan que termina con más caja en el mes 24 sin romper ninguna regla. Desempate: mayor número de suscriptores activos en mes 24.",
+    "planes_a_comparar_minimo": [
+      "$8.000 fijos",
+      "$16.000 fijos (propuesta agencia)",
+      "Plan Propio 1",
+      "Plan Propio 2"
+    ],
+    "revision_obligatoria_mes_1": "Hacer a mano el mes 1 del plan de $8.000 fijos y verificar que cuadre con la hoja de cálculo."
+  },
+  "rubrica": {
+    "rigor_numerico": 25,
+    "criterio_negocio": 30,
+    "uso_de_la_ia": 15,
+    "claridad": 20,
+    "visual": 10,
+    "bonus_nivel_2": 10,
+    "bonus_nivel_3": 15,
+    "bonus_mejor_plan": 5
+  }
+}
