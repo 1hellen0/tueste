@@ -14,7 +14,8 @@ import {
   Sparkles,
   Lock
 } from 'lucide-react';
-import { processSimulatedCheckout } from '../../services/storeStorage';
+import { getOrders, processSimulatedCheckout } from '../../services/storeStorage';
+import { getCheckoutQuote, getReferralToken, getParticipantProgress } from '../../services/referralProgram';
 
 export default function CheckoutModal({
   isOpen,
@@ -37,6 +38,17 @@ export default function CheckoutModal({
   const [formErrors, setFormErrors] = useState({});
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [rejectionNotice, setRejectionNotice] = useState(null);
+  const [useReferralCredit, setUseReferralCredit] = useState(false);
+  const referralToken = getReferralToken();
+  const quote = getCheckoutQuote({
+    items: cart.items,
+    email: customer.email,
+    orders: getOrders(),
+    referralToken,
+    useCredit: useReferralCredit,
+    baseTotals: cart
+  });
+  const hasCredit = (getParticipantProgress(customer.email)?.credit || 0) > 0;
 
   const handleInputChange = (field, value) => {
     setCustomer(prev => ({ ...prev, [field]: value }));
@@ -79,7 +91,9 @@ export default function CheckoutModal({
         simulateApproval: simulateApproval,
         idempotencyKey,
         cardBrand,
-        cardLast4: '4242'
+        cardLast4: '4242',
+        referralToken,
+        useReferralCredit
       });
 
       setIsSubmitting(false);
@@ -137,9 +151,24 @@ export default function CheckoutModal({
             <div className="text-right">
               <span className="text-[#665348] block">Total Liquidado:</span>
               <span className="font-mono text-2xl font-black text-[#482B23]">
-                ${cart.total?.toFixed(2)} USD
+                ${quote.total?.toFixed(2)} USD
               </span>
             </div>
+          </div>
+
+          <div className="p-4 rounded-2xl bg-[#F3EDE4] border border-[#DED3C5] space-y-2 text-xs">
+            <div className="flex justify-between"><span>Subtotal de productos</span><strong>${quote.subtotal.toFixed(2)}</strong></div>
+            {quote.discount > 0 && <div className="flex justify-between text-[#25432F]"><span>Descuento referido</span><strong>−${quote.discount.toFixed(2)}</strong></div>}
+            {quote.creditApplied > 0 && <div className="flex justify-between text-[#25432F]"><span>Crédito local aplicado</span><strong>−${quote.creditApplied.toFixed(2)}</strong></div>}
+            <div className="flex justify-between"><span>Envío</span><strong>{quote.shippingCost === 0 ? 'Gratis' : `$${quote.shippingCost.toFixed(2)}`}</strong></div>
+            <div className="flex justify-between border-t border-[#DED3C5] pt-2 font-black"><span>Total simulado</span><strong>${quote.total.toFixed(2)} USD</strong></div>
+            {quote.message && <p className="text-[11px] text-[#25432F]">{quote.message}</p>}
+            {hasCredit && quote.mode !== 'referral_discount' && (
+              <label className="flex items-center gap-2 border-t border-[#DED3C5] pt-2">
+                <input type="checkbox" checked={useReferralCredit} onChange={event => setUseReferralCredit(event.target.checked)} />
+                <span>Usar crédito Tueste disponible (no cubre envío)</span>
+              </label>
+            )}
           </div>
 
           {/* Rejection Notification Banner */}
@@ -353,7 +382,7 @@ export default function CheckoutModal({
               ) : (
                 <>
                   <span>
-                    {paymentChoice === 'APPROVED' ? `Confirmar y Pagar $${cart.total?.toFixed(2)} USD` : 'Simular Fallo de Pago'}
+                    {paymentChoice === 'APPROVED' ? `Confirmar y Pagar $${quote.total?.toFixed(2)} USD` : 'Simular Fallo de Pago'}
                   </span>
                   <ArrowRight className="w-4 h-4 stroke-[3]" />
                 </>

@@ -1297,5 +1297,57 @@ Mediante Puppeteer y capturas de pantalla de alta resolución en resolución de 
 - **Hojas de Cálculo:** Archivo `Calculadora_Tueste_Nivel_1.xlsx` intacto.
 - **Estética AURA ROAST:** Paleta espresso, chocolate, cobre, dorado y crema rigurosamente preservada y potenciada con contraste WCAG AA.
 
+---
 
+## Entrada 20: Implementación del Programa de Referidos — Parte 2
 
+**Fase:** Tueste — Parte 2, integración del prototipo de referidos
+**Alcance:** Implementación en el proyecto existente; no se creó un proyecto nuevo.
+
+### 1. Archivos creados y modificados
+
+- `src/services/referralProgram.js`: estado aislado `tueste_referrals_v1`, atribución, doble confirmación, descuentos, créditos, recompensas, costos, A/B e inventario ficticio de premios.
+- `src/components/store/ReferralProgramPanel.jsx`: confirmación del cliente, enlace personal de demostración, panel de progreso y acción de compartir.
+- `src/components/commercial/ReferralGrowth.jsx`: panel Growth, embudo, costos, eventos y experimento.
+- `src/components/store/CheckoutModal.jsx`, `OrderReceiptModal.jsx` y `PublicStoreView.jsx`: integración visible con el checkout y la tienda existente.
+- `src/components/commercial/OrderDetailModal.jsx`, `CommercialHub.jsx`, `Sidebar.jsx`: verificación administrativa de entrega sin costo incremental y acceso a Growth.
+- `src/services/storeStorage.js`: integración con checkout aprobado y estados de entrega, sin cambiar las claves del almacenamiento comercial.
+- `test_referral_program.js` y `package.json`: suite aislada de reglas y comando `npm run test`.
+- Documentación: `docs/parte-2/GROWTH_SHEET_PARTE_2.md`, `docs/parte-2/GUION_DEMO_3_MINUTOS.md` y `docs/parte-2/DOCUMENTACION_PARTE_2.md`.
+
+### 2. Reglas y límites económicos
+
+- Activación solo con pedido aprobado marcado entregado por administración y confirmación de recepción del mismo pedido por el cliente.
+- Primera compra elegible por enlace: descuento de $8 desde subtotal original de $17; el envío gratuito referido se calcula desde subtotal original de $60.
+- Recompensa individual normal: descuento $8 + crédito local $8 + muestra $1,60 = $17,60. El hito de bolsa agrega $5,44 al referido que lo alcanza, para un máximo de referencia de $23,04 por ese referido.
+- Premios físicos tienen inventario ficticio separado, empiezan en cero y requieren verificación administrativa de logística sin costo incremental antes de asignarse. La bolsa del hito no se distribuye automáticamente.
+- El mes gratis no se habilita: su impacto económico de $47,18 excede el tope de $25.
+- Datos del programa, participantes y compras de esta implementación se etiquetan como simulados. `localStorage` no aporta autenticación, sincronización multi-dispositivo ni controles de producción.
+
+### 3. Pruebas y verificaciones ejecutadas
+
+| Comando / revisión | Resultado |
+|---|---|
+| `npm run test` | **Suite aislada aprobada** en almacenamiento local simulado, incluyendo idempotencia, doble confirmación, tope individual, logística, cancelación, A/B y vigencia de atribución. |
+| `npm run build` | **Compilación exitosa** (11,70 s). Vite mantiene advertencia de chunk JavaScript mayor de 500 kB (893,79 kB sin gzip). |
+| `npm run test:audit` | Aprobada la auditoría de fórmulas, CAC, LTV, payback y escenarios financieros. |
+| `npm run test:calc` | Aprobada la validación de estructura y cálculos del libro Excel Nivel 1. |
+| `git diff --check` | Sin errores de whitespace; Git mostró advertencias de conversión LF/CRLF en archivos modificados. |
+| Smoke visual previo | Tienda, landing de enlace y navegación a Growth comprobadas; se observó viewport móvil de 375–390 px sin overflow horizontal. No se verificó visualmente el checkout de extremo a extremo. |
+
+`npm run test:storage` **no se ejecutó**, porque su implementación restablece almacenamiento comercial con `resetToDemoDefaults()`.
+
+### 4. Integridad de la Parte 1 y observaciones
+
+- No se modificaron `src/utils/financialFormulas.js`, `src/components/commercial/CohortSimulator24M.jsx` ni `Calculadora_Tueste_Nivel_1.xlsx`.
+- No se alteró el modelo financiero de Parte 1 ni se ejecutaron pruebas que restablecen pedidos, clientes, catálogo o inventario comercial.
+- Durante la suite aislada se corrigió un doble registro previo del costo de muestra y se añadió la comprobación de ventanas A/B completas; las pruebas finales de referidos y el build pasaron.
+- La atribución, confirmación por correo y métricas siguen siendo demostrativas, no seguras para producción.
+
+### 5. Auditoría funcional de entrega — 6 de noviembre de 2026
+
+- En navegador local, a viewport de 390 px, la tienda renderizó sin overflow horizontal. Se creó un pedido de prueba del invitador, se recorrió preparación → envío → entregado, y el comprador confirmó la recepción del mismo pedido.
+- Se abrió el enlace personal en el mismo origen, se completó una compra aprobada con subtotal $17, descuento $8 y total $13,50. El panel del invitador mostró un comprador, $8 de crédito y un premio físico pendiente.
+- Growth mostró separados los datos oficiales del caso, eventos locales simulados y ambas variantes A/B. El reinicio de la demo cambió solo `tueste_referrals_v1`; los valores de `tueste_store_cart`, `tueste_store_customers`, `tueste_store_initialized_v1`, `tueste_store_orders` y `tueste_store_products` permanecieron idénticos.
+- La ejecución funcional expuso una prueba A/B sensible a las asignaciones aleatorias creadas por otros compradores simulados de la misma suite. Se aisló la fixture A/B a su asignación objetivo; `npm run test` pasó ocho ejecuciones consecutivas después del ajuste. No fue un fallo de la interfaz ni requirió cambiar lógica de producción.
+- `npm run test:audit` y `npm run test:calc` pasaron nuevamente. No se ejecutó `npm run test:storage`; fórmulas, simulador de cohortes y hoja Excel de Parte 1 no se modificaron.

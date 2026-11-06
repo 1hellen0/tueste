@@ -1,5 +1,5 @@
 import React from 'react';
-import { Coffee, ShoppingBag, LayoutDashboard, Truck, Search, ShieldCheck } from 'lucide-react';
+import { Coffee, ShoppingBag, LayoutDashboard, Truck, Search, ShieldCheck, Gift } from 'lucide-react';
 
 export default function StoreNavbar({ 
   cartCount = 0, 
@@ -30,11 +30,11 @@ export default function StoreNavbar({
           <div>
             <div className="flex items-center gap-2">
               <span className="font-serif font-black text-2xl tracking-tight text-[#F3EDE4]">Tueste<span className="text-[#F5B700]">®</span></span>
-              <span className="text-[10px] uppercase font-bold tracking-wider px-2 py-0.5 rounded-full bg-[#25432F] text-[#F5B700] border border-[#F5B700]/30">
+              <span className="hidden sm:inline-flex text-[10px] uppercase font-bold tracking-wider px-2 py-0.5 rounded-full bg-[#25432F] text-[#F5B700] border border-[#F5B700]/30">
                 Especialidad
               </span>
             </div>
-            <p className="text-[11px] text-[#DED3C5]/80 font-sans tracking-wide">Café Artesanal & Micro-Lotes</p>
+            <p className="hidden sm:block text-[11px] text-[#DED3C5]/80 font-sans tracking-wide">Café Artesanal & Micro-Lotes</p>
           </div>
         </div>
 
@@ -83,12 +83,20 @@ export default function StoreNavbar({
         </nav>
 
         {/* Right actions: Cart & Switch to Financial Dashboard */}
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-1 sm:gap-3 shrink-0">
+          <button
+            onClick={() => onSelectSection('referrals')}
+            className="flex items-center gap-1.5 px-2 sm:px-3 py-2.5 rounded-xl border border-[#F5B700]/35 text-[#F5B700] text-xs font-bold hover:bg-[#382019] transition"
+            title="Programa de referidos simulado"
+          >
+            <Gift className="w-4 h-4" />
+            <span className="hidden sm:inline">Referidos</span>
+          </button>
           {/* Cart button */}
           <button
             id="cart-drawer-toggle"
             onClick={onOpenCart}
-            className="relative flex items-center gap-2.5 px-4 py-2.5 rounded-xl bg-[#382019] hover:bg-[#2e1913] border border-[#74513D]/40 text-[#F3EDE4] transition-all shadow-sm group"
+            className="relative flex items-center gap-2.5 px-2.5 sm:px-4 py-2.5 rounded-xl bg-[#382019] hover:bg-[#2e1913] border border-[#74513D]/40 text-[#F3EDE4] transition-all shadow-sm group"
             title="Ver carrito de compras"
           >
             <div className="relative">
@@ -106,7 +114,7 @@ export default function StoreNavbar({
           <button
             id="admin-dashboard-toggle"
             onClick={onGoToAdmin}
-            className="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-[#25432F] hover:bg-[#1c3324] border border-[#F5B700]/40 text-[#F5B700] text-xs font-bold transition-all shadow-md hover:border-[#F5B700]"
+            className="flex items-center gap-2 px-2.5 sm:px-4 py-2.5 rounded-xl bg-[#25432F] hover:bg-[#1c3324] border border-[#F5B700]/40 text-[#F5B700] text-xs font-bold transition-all shadow-md hover:border-[#F5B700]"
             title="Ir al Tablero Financiero y Unit Economics (AURA ROAST)"
           >
             <LayoutDashboard className="w-4 h-4 text-[#F5B700]" />

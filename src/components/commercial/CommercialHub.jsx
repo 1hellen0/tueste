@@ -13,6 +13,7 @@ import OrdersManager from './OrdersManager';
 import InventoryManager from './InventoryManager';
 import CustomersManager from './CustomersManager';
 import PaymentsLog from './PaymentsLog';
+import ReferralGrowth from './ReferralGrowth';
 import { getCommercialSummary } from '../../services/storeStorage';
 
 export default function CommercialHub({ initialSubtab = 'summary', onGoToStore }) {
@@ -53,7 +54,8 @@ export default function CommercialHub({ initialSubtab = 'summary', onGoToStore }
       icon: Users,
       badge: stats.customersCount > 0 ? stats.customersCount : null
     },
-    { id: 'payments', label: 'Pagos Simulados', icon: CreditCard }
+    { id: 'payments', label: 'Pagos Simulados', icon: CreditCard },
+    { id: 'referrals', label: 'Growth / Referidos', icon: Users }
   ];
 
   return (
@@ -112,6 +114,7 @@ export default function CommercialHub({ initialSubtab = 'summary', onGoToStore }
       {activeSubtab === 'inventory' && <InventoryManager />}
       {activeSubtab === 'customers' && <CustomersManager />}
       {activeSubtab === 'payments' && <PaymentsLog />}
+      {activeSubtab === 'referrals' && <ReferralGrowth />}
     </div>
   );
 }

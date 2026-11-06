@@ -7,6 +7,7 @@ import StoreEditorial from './StoreEditorial';
 import CartDrawer from './CartDrawer';
 import CheckoutModal from './CheckoutModal';
 import OrderReceiptModal from './OrderReceiptModal';
+import ReferralProgramPanel from './ReferralProgramPanel';
 
 import {
   getProducts,
@@ -118,6 +119,9 @@ export default function PublicStoreView({ onGoToAdmin }) {
     if (sectionId === 'catalog') {
       const el = document.getElementById('catalogo');
       if (el) el.scrollIntoView({ behavior: 'smooth' });
+    } else if (sectionId === 'referrals') {
+      const el = document.getElementById('programa-referidos');
+      if (el) el.scrollIntoView({ behavior: 'smooth' });
     } else if (sectionId === 'subscription' || sectionId === 'plans') {
       const el = document.getElementById('suscripcion');
       if (el) el.scrollIntoView({ behavior: 'smooth' });
@@ -161,6 +165,8 @@ export default function PublicStoreView({ onGoToAdmin }) {
           products={products}
           onAddToCart={handleAddToCart}
         />
+
+        <ReferralProgramPanel />
 
         {/* 3. Subscription Club Section in Deep Forest Green #25432F */}
         <StoreSubscription

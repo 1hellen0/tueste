@@ -14,6 +14,7 @@ import {
   Ban
 } from 'lucide-react';
 import { updateOrderStatus } from '../../services/storeStorage';
+import { getReferralState, verifyRewardFulfillment } from '../../services/referralProgram';
 
 export default function OrderDetailModal({ order, isOpen, onClose, onOrderUpdated }) {
   if (!isOpen || !order) return null;
@@ -40,6 +41,18 @@ export default function OrderDetailModal({ order, isOpen, onClose, onOrderUpdate
         type: 'error' 
       });
     }
+    setTimeout(() => setFeedback({ message: '', type: '' }), 4000);
+  };
+
+  const handleVerifyRewards = () => {
+    const result = verifyRewardFulfillment(currentOrder);
+    setFeedback({
+      message: result.success
+        ? `Verificación local guardada. Premios asignados: ${result.assigned}; pendientes por existencias: ${result.pending}.`
+        : result.error,
+      type: result.success ? 'success' : 'error'
+    });
+    if (result.success && onOrderUpdated) onOrderUpdated(currentOrder);
     setTimeout(() => setFeedback({ message: '', type: '' }), 4000);
   };
 
@@ -161,6 +174,18 @@ export default function OrderDetailModal({ order, isOpen, onClose, onOrderUpdate
                 )}
               </span>
             </div>
+            {Number(currentOrder.totals?.discount || 0) > 0 && (
+              <div className="flex justify-between text-emerald-300">
+                <span>Descuento referido (simulado):</span>
+                <span className="font-mono">−${Number(currentOrder.totals.discount).toFixed(2)} USD</span>
+              </div>
+            )}
+            {Number(currentOrder.totals?.referralCreditApplied || 0) > 0 && (
+              <div className="flex justify-between text-emerald-300">
+                <span>Crédito local (simulado):</span>
+                <span className="font-mono">−${Number(currentOrder.totals.referralCreditApplied).toFixed(2)} USD</span>
+              </div>
+            )}
             <div className="pt-2 border-t border-aura-border flex justify-between items-baseline font-bold text-sm">
               <span className="text-aura-cream">Total Liquidado:</span>
               <span className="text-aura-gold font-mono text-base">
@@ -230,6 +255,22 @@ export default function OrderDetailModal({ order, isOpen, onClose, onOrderUpdate
               </div>
             ) : (
               <div className="space-y-2 pt-2 border-t border-aura-border">
+                {['PENDING_PREPARATION', 'IN_PREPARATION'].includes(fulfillmentStatus) && (
+                  <div className="p-3 rounded-lg bg-aura-card border border-aura-gold/30 space-y-2">
+                    <p className="text-[11px] text-aura-beige">
+                      Los premios físicos permanecen pendientes hasta verificar que se incluirán en este envío sin costo incremental de logística o preparación. Esta confirmación es local y simulada.
+                    </p>
+                    <button
+                      onClick={handleVerifyRewards}
+                      className="px-3 py-2 rounded-lg bg-aura-wood text-aura-gold border border-aura-copper/40 text-xs font-semibold"
+                    >
+                      Verificar logística y asignar premios pendientes
+                    </button>
+                    {getReferralState().verifiedRewardOrders.includes(currentOrder.orderId) && (
+                      <p className="text-[10px] text-emerald-300">Verificación de Parte 2 registrada para este pedido.</p>
+                    )}
+                  </div>
+                )}
                 <p className="text-[11px] text-aura-beige font-medium">Avanzar al siguiente estado:</p>
                 <div className="flex flex-wrap gap-2">
                   {fulfillmentStatus === 'PENDING_PREPARATION' && (

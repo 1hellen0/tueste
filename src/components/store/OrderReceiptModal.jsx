@@ -122,6 +122,18 @@ export default function OrderReceiptModal({
                 {totals?.freeShippingApplied ? 'GRATIS ($0.00 USD)' : `$${Number(totals?.shippingCost || 0).toFixed(2)} USD`}
               </span>
             </div>
+            {Number(totals?.discount || 0) > 0 && (
+              <div className="flex justify-between text-[#25432F]">
+                <span>Descuento referido (simulado):</span>
+                <span className="font-mono">−${Number(totals.discount).toFixed(2)} USD</span>
+              </div>
+            )}
+            {Number(totals?.referralCreditApplied || 0) > 0 && (
+              <div className="flex justify-between text-[#25432F]">
+                <span>Crédito local (simulado):</span>
+                <span className="font-mono">−${Number(totals.referralCreditApplied).toFixed(2)} USD</span>
+              </div>
+            )}
             <div className="flex justify-between text-base font-serif font-black text-[#30231C] pt-2 border-t border-[#DED3C5]">
               <span>Total Pagado:</span>
               <span className="font-mono text-xl text-[#482B23]">${Number(totals?.total || 0).toFixed(2)} USD</span>

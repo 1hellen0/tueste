@@ -1,3 +1,5 @@
+import { getCheckoutQuote, getReferralToken, recordApprovedReferralOrder, updateReferralDelivery, updateReferralOrderFulfillment, cancelReferralPurchase } from './referralProgram.js';
+
 /**
  * ==============================================================================
  * TUESTE E-COMMERCE — SERVICIO DE ALMACENAMIENTO Y PERSISTENCIA (FASE B)
@@ -515,7 +517,9 @@ export function processSimulatedCheckout({
   cartItems = null,
   simulateApproval = true,
   idempotencyKey = null,
-  paymentDetails = {}
+  paymentDetails = {},
+  referralToken = getReferralToken(),
+  useReferralCredit = false
 }) {
   // 1. Validar datos mínimos de cliente
   if (!customer || !customer.name || !customer.email || !customer.address) {
@@ -578,7 +582,24 @@ export function processSimulatedCheckout({
   }
 
   // 5. Cálculo oficial de totales del pedido
-  const totals = calculateCartTotals(itemsToProcess);
+  const baseTotals = calculateCartTotals(itemsToProcess);
+  const referralQuote = getCheckoutQuote({
+    items: itemsToProcess,
+    email: customer.email,
+    orders: existingOrders,
+    referralToken,
+    useCredit: useReferralCredit,
+    baseTotals
+  });
+  const totals = {
+    ...baseTotals,
+    subtotal: referralQuote.subtotal,
+    shippingCost: referralQuote.shippingCost,
+    total: referralQuote.total,
+    discount: referralQuote.discount,
+    referralCreditApplied: referralQuote.creditApplied,
+    originalSubtotal: referralQuote.subtotal
+  };
 
   // 6. Simulación de Pasarela de Pagos (Stripe / Pasarela simulada)
   const orderId = generateOrderId();
@@ -616,6 +637,11 @@ export function processSimulatedCheckout({
       items: itemsToProcess.map(i => ({ ...i })),
       totals,
       payment: paymentRecord,
+      referral: referralQuote.mode === 'referral_discount' && referralQuote.valid
+        ? { mode: referralQuote.mode, inviterParticipantId: referralQuote.referrerParticipantId, token: referralQuote.referralToken, discount: referralQuote.discount }
+        : referralQuote.mode === 'referrer_credit'
+          ? { mode: referralQuote.mode, participantId: referralQuote.referrerParticipantId, creditApplied: referralQuote.creditApplied }
+          : null,
       isSimulatedOrder: true
     };
 
@@ -658,6 +684,11 @@ export function processSimulatedCheckout({
     items: itemsToProcess.map(i => ({ ...i })),
     totals,
     payment: paymentRecord,
+    referral: referralQuote.mode === 'referral_discount' && referralQuote.valid
+      ? { mode: referralQuote.mode, inviterParticipantId: referralQuote.referrerParticipantId, token: referralQuote.referralToken, discount: referralQuote.discount }
+      : referralQuote.mode === 'referrer_credit'
+        ? { mode: referralQuote.mode, participantId: referralQuote.referrerParticipantId, creditApplied: referralQuote.creditApplied }
+        : null,
     isSimulatedOrder: true
   };
 
@@ -666,6 +697,7 @@ export function processSimulatedCheckout({
 
   // Actualizar directorio de clientes de prueba
   updateCustomersDirectory(confirmedOrder);
+  recordApprovedReferralOrder(confirmedOrder, referralQuote);
 
   // Vaciar el carrito tras compra confirmada
   clearCart();
@@ -786,6 +818,9 @@ export function updateOrderStatus(orderId, newStatus) {
   orders[index].fulfillmentStatus = newStatus;
   orders[index].updatedAt = new Date().toISOString();
   storageAdapter.setItem(STORAGE_KEYS.ORDERS, JSON.stringify(orders));
+  if (newStatus === 'DELIVERED') updateReferralDelivery(orders[index]);
+  updateReferralOrderFulfillment(orders[index]);
+  if (newStatus === 'CANCELLED') cancelReferralPurchase(orderId);
 
   return { success: true, order: orders[index] };
 }
@@ -843,4 +878,3 @@ export function getPaymentsLog() {
     isRealTransaction: false
   }));
 }
-

@@ -13,7 +13,8 @@ import {
   Coffee,
   Sparkles,
   Sliders,
-  Store
+  Store,
+  Gift
 } from 'lucide-react';
 
 export default function Sidebar({ activeTab, setActiveTab, metrics, onGoToStore }) {
@@ -32,6 +33,7 @@ export default function Sidebar({ activeTab, setActiveTab, metrics, onGoToStore 
     { id: 'commercial_inventory', label: 'Inventario y Productos', icon: Package },
     { id: 'commercial_customers', label: 'Directorio de Clientes', icon: Users },
     { id: 'commercial_payments', label: 'Pagos Simulados', icon: CreditCard },
+    { id: 'commercial_referrals', label: 'Growth / Referidos', icon: Gift },
   ];
 
   return (
